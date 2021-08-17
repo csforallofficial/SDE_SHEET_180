@@ -1,51 +1,49 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+#include<vector>
 using namespace std;
 
-int merge(int arr[], int temp[], int left, int mid, int right)
-{
-    int i = left, j = mid, k = left, inv_count = 0;
-    while ((i <= mid - 1) && (j <= right))
-    {
-        if (arr[i] <= arr[j])
-            temp[k++] = arr[i++];
+int merge(int arr[], int low, int mid, int high){
+    int j = mid+1, count = 0;
+    for(int i = low; i <= mid; i++){
+        while(j<=high && arr[i] > arr[j])
+            j++;
+        count += j - (mid+1);
+    }
+    
+    int left = low, right = mid+1;
+    vector<int> temp;
+    while(left<=mid && right<=high){
+        if(arr[left]<=arr[right])
+            temp.push_back(arr[left++]);
         else
-        {
-            temp[k++] = arr[j++];
-            inv_count += (mid - i);
-        }
+            temp.push_back(arr[right++]);
     }
-    while (i <= mid - 1)
-        temp[k++] = arr[i++];
-    while (j <= right)
-        temp[k++] = arr[j++];
-    for (i = left; i <= right; i++)
-        arr[i] = temp[i];
-    return inv_count;
+    while(left<=mid)
+        temp.push_back(arr[left++]);
+    while(right<=high)
+        temp.push_back(arr[right++]);
+    for(int i = low; i <= high; i++)
+        arr[i] = temp[i-low];
+    return count;
 }
 
-int merge_sort(int arr[], int temp[], int left, int right)
-{
-    int inv_count = 0, mid;
-    if (right > left)
-    {
-        mid = (left + right) / 2;
-        inv_count += merge_sort(arr, temp, left, mid);
-        inv_count += merge_sort(arr, temp, mid + 1, right);
-        inv_count += merge(arr, temp, left, mid + 1, right);
-    }
-    return inv_count;
+int inv_count(int arr[], int low, int high){
+    if(low>=high)
+        return 0;
+    int mid = (low+high)/2;
+    int count = inv_count(arr,low,mid);
+    count += inv_count(arr,mid+1,high);
+    count += merge(arr,low,mid,high);
+    return count;
 }
 
-int main()
-{
-
+int main(){
     int n;
     cin >> n;
     int arr[n];
-    for (int i = 0; i < n; i++)
+    for(int i = 0; i < n; i++)
         cin >> arr[i];
-    int temp[n];
-    int ans = merge_sort(arr, temp, 0, n - 1);
+    int ans = inv_count(arr,0,n-1);
     cout << ans << endl;
     return 0;
 }
