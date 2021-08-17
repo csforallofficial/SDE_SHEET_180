@@ -24,8 +24,7 @@ Constraints:
 
 
 class Solution {
-public:
-    
+public:    
     int merge(vector<int> &nums, int low, int mid, int high){
         int j = mid + 1;
         int count = 0;
