@@ -23,7 +23,9 @@
 
         iter = head;
         while(iter!=NULL){
-            iter->next->random = iter->random->next;
+            if(iter->random!=NULL){
+                iter->next->random = iter->random->next;
+            }
             iter = iter->next->next;
         }
         
