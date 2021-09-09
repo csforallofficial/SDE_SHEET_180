@@ -57,7 +57,7 @@ Constraints:
 //As long as (index!=N), if i want to consider the current element into sum, consider adding it, else leave it. if (index == N), pushback current sum into 
 //the resultant vector. Finally sort the resultant vector and return it.
 //Time - O(2^N) + O((2^N)log(2^N)), 2^N for storing those many subset sums and (2^N)log(2^N) for sorting the stored sums.
-//Space - O(N)
+//Space - O(2^N)
 
 public:
     void func(int ind, int sum, vector<int> &arr, int N, vector<int> &sumSubset){
