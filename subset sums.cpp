@@ -53,4 +53,28 @@ Constraints:
     }
 
 
-//2nd approach - 
+//2nd approach - Recursive tree approach
+//As long as (index!=N), if i want to consider the current element into sum, consider adding it, else leave it. if (index == N), pushback current sum into 
+//the resultant vector. Finally sort the resultant vector and return it.
+//Time - O(2^N) + O((2^N)log(2^N)), 2^N for storing those many subset sums and (2^N)log(2^N) for sorting the stored sums.
+//Space - O(N)
+
+public:
+    void func(int ind, int sum, vector<int> &arr, int N, vector<int> &sumSubset){
+        if(ind == N){
+            sumSubset.push_back(sum);
+            return;
+        }
+        func(ind+1,sum+arr[ind],arr,N,sumSubset);
+        func(ind+1,sum,arr,N,sumSubset);
+    }
+public:
+    vector<int> subsetSums(vector<int> arr, int N)
+    {
+        vector<int> sumSubset;
+        func(0,0,arr,N,sumSubset);
+        sort(sumSubset.begin(),sumSubset.end());
+        return sumSubset;
+    }
+
+
